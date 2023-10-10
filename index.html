@@ -30,8 +30,25 @@
    </div>
   </div>
   <script>
-    const nodeList = document.querySelectorAll(".list-group-item");
-    nodeList[1].style.color = "green";
+    var itemList = document.querySelector("#items");
+    itemList.parentNode.style.backgroundColor = "#f4f4f4";
+    itemList.parentNode.style.color = "black";
+    console.log(itemList.lastChild);
+    itemList.lastElementChild.textContent = "Hello 4";
+    console.log(itemList.firstChild);
+    itemList.firstElementChild.textContent = "Hello 1";
+    console.log(itemList.nextSibling);
+    console.log(itemList.nextElementSibling);
+    console.log(itemList.previousSibling);
+    console.log(itemList.previousElementSibling);
+    itemList.previousElementSibling.style.color = 'green';
+    var newDiv = document.createElement("div");
+    newDiv.className = 'hello';
+    newDiv.id = 'hello1';
+    newDiv.setAttribute('title','Hello Div');
+    var newDivText = document.createTextNode('Hello World');
+    newDiv.appendChild(newDivText);
+    console.log(newDiv);
   </script>
 </body>
 </html>
