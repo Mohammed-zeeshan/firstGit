@@ -25,6 +25,7 @@
     <h2 class="title">Add Items</h2>
     <form id="addForm" class="form-inline mb-3">
       <input type="text" class="form-control mr-2" id="item">
+      <input type="text" class="form-control mr-2" id="item2">
       <input type="submit" class="btn btn-dark" value="Submit">
     </form>
     <h2 class="title">Items</h2>
@@ -39,15 +40,20 @@
   <script>
     var form = document.getElementById('addForm');
     var itemList = document.getElementById('items');
+    var filter = document.getElementById('filter');
 
     form.addEventListener('submit', addItem);
     itemList.addEventListener('click', removeItem);
+    filter.addEventListener('keyup', filterItems);
     function addItem(e){
       e.preventDefault();
       var newItem = document.getElementById('item').value;
+      var newItem2 = document.getElementById('item2').value;
       var li = document.createElement('li');
       li.className = 'list-group-item';
       li.appendChild(document.createTextNode(newItem));
+      li.appendChild(document.createTextNode(" "));
+      li.appendChild(document.createTextNode(newItem2));
       var deleteBtn = document.createElement('button');
       deleteBtn.className = 'btn btn-danger btn-sm float-right delete';
       deleteBtn.appendChild(document.createTextNode('X'));
@@ -65,6 +71,18 @@
           itemList.removeChild(li);
         }
       }
+    }
+    function filterItems(e){
+      var text = e.target.value.toLowerCase();
+      var items = itemList.getElementsByTagName('li');
+      Array.from(items).forEach(function(item){
+        var itemName = item.firstChild.wholeText;
+        if(itemName.toLowerCase().indexOf(text) != -1){
+          item.style.display = 'block';
+        } else {
+          item.style.display = 'none';
+        }
+      });
     }
   </script>
 </body>
