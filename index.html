@@ -46,9 +46,15 @@
             const username = document.getElementById("username").value;
             const email = document.getElementById("email").value;
             const password = document.getElementById("password").value;
-            localStorage.setItem("username",username);
-            localStorage.setItem("email",email);
-            localStorage.setItem("password",password);
+            let myObj = {
+                'username': username,
+                'email': email,
+                'password': password
+            }
+            let obj = JSON.stringify(myObj);
+            localStorage.setItem("myObj",obj)
+            let objects = JSON.parse(obj)
+            console.log(objects);
         }
     </script>
 </body>
