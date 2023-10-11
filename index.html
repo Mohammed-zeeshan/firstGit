@@ -52,7 +52,7 @@
                 'password': password
             }
             let obj = JSON.stringify(myObj);
-            localStorage.setItem("myObj",obj)
+            localStorage.setItem(email,obj)
             let objects = JSON.parse(obj)
             console.log(objects);
         }
