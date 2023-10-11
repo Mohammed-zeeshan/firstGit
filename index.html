@@ -29,7 +29,7 @@
 </head>
 <body>
     <div class="body">
-        <form action="#" onsubmit="submitform(event)">
+        <form action="#" id="addForm" onsubmit="submitform(event)">
             <div><label for="username">Name :</label>
             <input type="text" name="username" id="username" placeholder="Enter name" required><br></div>
             <div><label for="email">Email :</label>
@@ -38,7 +38,7 @@
             <input type="password" name="password" id="password" placeholder="Enter password" required><br></div>
             <div><input class="btn" type="submit" value="Submit"></div>
         </form>
-        <ul id="users"></ul>
+        <ul id="items"></ul>
     </div>
     <script>
         function submitform(event) {
@@ -54,7 +54,32 @@
             let obj = JSON.stringify(myObj);
             localStorage.setItem(email,obj)
             let objects = JSON.parse(obj)
-            console.log(objects);
+            console.log(Objects);
+        }
+        var form = document.getElementById('addForm');
+        var itemList = document.getElementById('items');
+
+        form.addEventListener('submit', addItem);
+        itemList.addEventListener('click', removeItem);
+        function addItem(e){
+            e.preventDefault();
+            var newItem = document.getElementById('email').value;
+            var li = document.createElement('li');
+            li.className = 'list-group-item';
+            li.appendChild(document.createTextNode(newItem));
+            var deleteBtn = document.createElement('button');
+            deleteBtn.className = 'btn btn-danger btn-sm float-right delete';
+            deleteBtn.appendChild(document.createTextNode('X'));
+            li.appendChild(deleteBtn);
+            itemList.appendChild(li);
+        }
+        function removeItem(e){
+            if(e.target.classList.contains('delete')){
+                if(confirm('Are You Sure?')){
+                var li = e.target.parentElement;
+                itemList.removeChild(li);
+                }
+            }
         }
     </script>
 </body>
