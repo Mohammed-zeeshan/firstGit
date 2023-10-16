@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registration form</title>
     <style>
         form {
@@ -56,7 +58,7 @@
             axios.post("https://crudcrud.com/api/48c89257a14242ae8b395c06d2b18fee/appoinmentData",myObj)
                 .then((response) => {
                     addItem(myObj);
-                    console.log(response)
+                    // console.log(response)
                 })
                 .catch((err) => {
                     console.log(err)
@@ -65,8 +67,19 @@
             // localStorage.setItem(email,obj)
             // let objects = JSON.parse(obj)
             // console.log(objects);
-            
         }
+        window.addEventListener("DOMContentLoaded",() => {
+            axios.get("https://crudcrud.com/api/48c89257a14242ae8b395c06d2b18fee/appoinmentData")
+            .then((response) => {
+                console.log(response)
+                for (var i=0;i<response.data.length;i++){
+                    addItem(response.data[i]);
+                }
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+        })
 
         function addItem(myObj){
 
@@ -85,7 +98,7 @@
             deleteButton.onclick = () => {
                 localStorage.removeItem(myObj.email)
                 parentElem.removeChild(li)
-                console.log(newItem)
+                console.log(myObj)
             }
             let editButton = document.createElement('input');
             editButton.type = 'button';
