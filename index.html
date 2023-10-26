@@ -81,8 +81,25 @@
 
         function addItem(user){
             const parentElem = document.getElementById('items')
-            const childElem = `<li id=${user._id}>${user.username} - ${user.email} - ${user.password}</li>`
+            const childElem = `<li id=${user._id}>${user.username} - ${user.email} - ${user.password}
+            <button onclick=deleteUser('${user._id}')>delete</button>
+            </li>`
             parentElem.innerHTML = parentElem.innerHTML + childElem;
+        }
+        function deleteUser(userId){
+            axios.delete(`https://crudcrud.com/api/0c6a48424b454f90beb8bcb6825ed43b/appoinmentData/${userId}`)
+                .then((response) => {
+                    removeItemFromScreen(userId)
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
+        }
+        function removeItemFromScreen(userId){
+            const parentElem = document.getElementById('items')
+            const elem = document.getElementById(userId)
+            parentElem.removeChild(elem);
+            console.log(userId)
         }
     </script>
 </body>
