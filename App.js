@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import './App.css';
-import ExpenseItem from './components/Expenses/ExpenseItem';
+// import ExpenseItem from './components/Expenses/ExpenseItem';
 import ExpensesFilter from './components/Expenses/ExpensesFilter';
 import ExpenseForm from './components/NewExpense/ExpenseForm';
+import ExpensesList from './components/Expenses/ExpensesList';
 
 const DummyExpenses = [
   {id: 'e1', title: 'Toilet Paper', amount: '94.12', location: 'Store', date: new Date(2020, 8, 13)},
@@ -14,6 +15,7 @@ const DummyExpenses = [
 function App() {
   const [expenses, setExpenses] = useState(DummyExpenses);
   const [filteredYear, setFilteredYear] = useState('2019');
+  const [isEditing, setIsEditing] = useState(false);
   const saveExpenseDataHandler = (enteredExpenseData) => {
     setExpenses((prevExpenses) => {
       return [enteredExpenseData, ...prevExpenses];
@@ -25,21 +27,18 @@ function App() {
   const filteredExpenses = expenses.filter(expense => {
     return expense.date.getFullYear().toString() === filteredYear
   })
+  const setEiditngHandler = () => {
+    setIsEditing(true)
+  }
+  
   return (
-    <div className='apps__'>
-      <ExpenseForm onSaveExpenseData={saveExpenseDataHandler}/>
+    <div>
+      {!isEditing && <button onClick={setEiditngHandler}>Add New Expense</button>}
+      {isEditing && <ExpenseForm onSaveExpenseData={saveExpenseDataHandler}/>}
+      <div>
       <ExpensesFilter selected={filteredYear} onChangeFilter={filterChangeHandler}/>
-      {filteredExpenses.map((data) => {
-        return (
-          <ExpenseItem 
-            key ={data.id}
-            title={data.title} 
-            amount={data.amount} 
-            date={data.date}
-            location={data.location}
-          ></ExpenseItem>
-        )
-      })}
+      <ExpensesList items={filteredExpenses}/>
+      </div>
     </div>
   );
 }
