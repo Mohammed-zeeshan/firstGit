@@ -13,16 +13,23 @@ const DummyExpenses = [
 
 function App() {
   const [expenses, setExpenses] = useState(DummyExpenses);
+  const [filteredYear, setFilteredYear] = useState('2019');
   const saveExpenseDataHandler = (enteredExpenseData) => {
     setExpenses((prevExpenses) => {
       return [enteredExpenseData, ...prevExpenses];
     });
   };
+  const filterChangeHandler = selectedYear => {
+    setFilteredYear(selectedYear);
+  }
+  const filteredExpenses = expenses.filter(expense => {
+    return expense.date.getFullYear().toString() === filteredYear
+  })
   return (
     <div className='apps__'>
       <ExpenseForm onSaveExpenseData={saveExpenseDataHandler}/>
-      <ExpensesFilter/>
-      {expenses.map((data) => {
+      <ExpensesFilter selected={filteredYear} onChangeFilter={filterChangeHandler}/>
+      {filteredExpenses.map((data) => {
         return (
           <ExpenseItem 
             key ={data.id}
