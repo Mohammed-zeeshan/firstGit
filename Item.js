@@ -1,10 +1,13 @@
 import React from 'react'
 
 const Item = (props) => {
-    console.log(props.username)
+    const deleteHandler = () => {
+        props.onDelete(props.id);
+        // localStorage.removeItem(props.id)
+      };
   return (
     <div>
-        <p>{props.username} {props.age}</p>
+        {props.children} <button onClick={deleteHandler}>Delete Product</button>
     </div>
   )
 }

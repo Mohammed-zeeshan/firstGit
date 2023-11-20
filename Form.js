@@ -1,62 +1,40 @@
-import React, { useRef, useState } from 'react'
-import ErrorModal from '../ErrorModal/ErrorModal';
-import './Form.css'
-import Wrapper from '../Helpers/Wrapper';
+import React, { useState } from 'react'
 
 const Form = (props) => {
-    const nameInputRef = useRef();
-    const ageInputRef = useRef();
-    const collegeInputRef = useRef();
-
-    const [errorModal, setErrorModal] = useState();
-    const submitHandler = (event) => {
-        const username = nameInputRef.current.value;
-        const age = ageInputRef.current.value;
-        const college = collegeInputRef.current.value;
-        event.preventDefault();
-        if (username.trim().length === 0 || age.trim().length === 0 || college.trim().length === 0){
-            setErrorModal({
-                title: 'Invalid Input',
-                message: 'Please enter valid message'
-            })
-            return;
-        }
-        if (+age < 1){
-            setErrorModal({
-                title: 'Invalid Age',
-                message: 'Please enter valid Age'
-            })
-            return;
-        }
-        props.onSaveData(username, age, college);
-        nameInputRef.current.value = '';
-        ageInputRef.current.value = '';
-        collegeInputRef.current.value = '';
+    const [productId, setProductId] = useState('');
+    const [selling, setSelling] = useState('');
+    const [productName, setProductName] = useState('');
+    const productIdInputChangeHandler = (event) => {
+        setProductId(event.target.value);
     }
-    const errorController = () => {
-        setErrorModal(null);
+    const sellingInputChangeHandler = (event) => {
+        setSelling(event.target.value);
+    }
+    const productNameInputChangeHandler = (event) => {
+        setProductName(event.target.value)
+    }
+    const submitForm = (event) => {
+        event.preventDefault();
+        const data = {
+            productId: productId,
+            selling: selling,
+            productName: productName
+        }
+        props.details(data);
+        localStorage.setItem(productId,data)
     }
   return (
-    <Wrapper>
-        {errorModal && <ErrorModal title={errorModal.title} message={errorModal.message} onconfirm={errorController}></ErrorModal>}
-        <form onSubmit={submitHandler}>
-            <div>
-                <label>Username</label>
-                <input type='text' className='input-box' ref={nameInputRef}/>
-            </div>
-            <div>
-                <label>Age(Years)</label>
-                <input type='number' className='input-box' ref={ageInputRef}/>
-            </div>
-            <div>
-                <label>College Name</label>
-                <input type='text' className='input-box' ref={collegeInputRef}/>
-            </div>
-            <div>
-                <button type='submit'>Add User</button>
-            </div>
+    <div>
+        <form>
+            <label>Product ID: </label>
+            <input type='number' value={productId} onChange={productIdInputChangeHandler}/>
+            <label>Selling Price: </label>
+            <input type='number' value={selling} onChange={sellingInputChangeHandler}/>
+            <label>Product Name: </label>
+            <input type='text' value={productName} onChange={productNameInputChangeHandler}/>
+            <button type='submit' onClick={submitForm}>Add Product</button>
         </form>
-    </Wrapper   >
+    </div>
   )
 }
 
